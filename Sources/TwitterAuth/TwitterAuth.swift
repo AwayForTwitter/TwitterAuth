@@ -6,13 +6,28 @@
 //  Copyright © 2021 Hybrid Cat ApS. All rights reserved.
 //
 
+public protocol TokenStorage {
+    var token: String? { get set }
+}
+
 public final class TwitterAuth {
     
-    public var token: Token? {
-        return nil
+    public struct Consumer {
+        public init(key: String, secret: String) {
+            self.key = key
+            self.secret = secret
+        }
+        
+        var key: String
+        var secret: String
     }
-        
-    init() {
-        
+    
+    public private(set) var token: Token?
+    public let tokenStorage: TokenStorage
+    public let consumer: Consumer
+    
+    init(tokenStorage: TokenStorage, consumer: Consumer) {
+        self.tokenStorage = tokenStorage
+        self.consumer = consumer
     }
 }

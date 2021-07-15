@@ -10,15 +10,16 @@ import Foundation
 
 public struct Token: Codable {
     
-    public enum PermissionLevel: String, Codable {
-        case readOnly = "ro", readWrite = "rw"
-    }
+//    public enum PermissionLevel: String, Codable {
+//        case readOnly = "ro", readWrite = "rw"
+//    }
     
     public let value: String
-    public let permission: PermissionLevel
+//    public let permission: PermissionLevel
 }
 
 extension Token: RawRepresentable {
+    
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
             let result = try? JSONDecoder().decode(Token.self, from: data)
