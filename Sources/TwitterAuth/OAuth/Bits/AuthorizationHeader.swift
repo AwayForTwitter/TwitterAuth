@@ -1,8 +1,9 @@
 //
-//  File.swift
+//  AuthorizationHeader.swift
+//  TwitterAuth
 //  
-//
 //  Created by Marina Gornostaeva on 15/07/2021.
+//  Copyright © 2021 Hybrid Cat ApS. All rights reserved.
 //
 
 // todo: update author
@@ -10,8 +11,11 @@
 import Foundation
 
 struct AuthorizationHeader {
-    var key: String
-    var value: String
+    let key: String
+    let value: String
+    
+    let parameterString: String
+    let signature: String
 }
 
 extension AuthorizationHeader {
@@ -22,8 +26,8 @@ extension AuthorizationHeader {
         method: String,
         additionalOAuthParams: [Parameter] = [],
         consumerKey: String,
-        token: String?,
         consumerSecret: String,
+        token: String?,
         tokenSecret: String?,
         identifier: String,
         timestamp: Date) throws -> AuthorizationHeader {
@@ -78,6 +82,6 @@ extension AuthorizationHeader {
             return "OAuth \(str)"
         }()
         
-        return AuthorizationHeader(key: "Authorization", value: oauth)
+        return AuthorizationHeader(key: "Authorization", value: oauth, parameterString: parameterString, signature: signature)
     }
 }

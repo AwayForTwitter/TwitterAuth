@@ -12,22 +12,13 @@ public protocol TokenStorage {
 
 public final class TwitterAuth {
     
-    public struct Consumer {
-        public init(key: String, secret: String) {
-            self.key = key
-            self.secret = secret
-        }
-        
-        var key: String
-        var secret: String
-    }
+//    public private(set) var token: Token?
     
-    public private(set) var token: Token?
     public let tokenStorage: TokenStorage
-    public let consumer: Consumer
+    public let clientCredentials: ClientCredentials
     
-    init(tokenStorage: TokenStorage, consumer: Consumer) {
+    init(tokenStorage: TokenStorage, clientCredentials: ClientCredentials) {
         self.tokenStorage = tokenStorage
-        self.consumer = consumer
+        self.clientCredentials = clientCredentials
     }
 }
