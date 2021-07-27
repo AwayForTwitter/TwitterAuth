@@ -106,6 +106,10 @@ final class OAuthFlow {
 
 private class AuthPresenter: NSObject, ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        #if os(iOS)
         return UIApplication.shared.keyWindow! // TODO: make sure it picks the current window
+        #elseif os(macOS)
+        return NSApplication.shared.keyWindow!
+        #endif
     }
 }
