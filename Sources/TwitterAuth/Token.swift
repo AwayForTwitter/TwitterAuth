@@ -10,9 +10,9 @@ import Foundation
 
 public struct Token: Codable {
     
-    struct Credentials: Codable {
-        var token: String
-        var secret: String
+    public struct Credentials: Codable {
+        public var token: String
+        public var secret: String
     }
     
 //    public enum PermissionLevel: String, Codable {
@@ -21,10 +21,10 @@ public struct Token: Codable {
     
 //    public let permission: PermissionLevel
     
-    let credentials: Credentials
+    public let credentials: Credentials
 
-    let username: String
-    let userID: String
+    public let username: String
+    public let userID: String
     
     enum CodingKeys: String, CodingKey {
         case credentials, username, userID

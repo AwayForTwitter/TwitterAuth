@@ -7,13 +7,11 @@
 //
 
 public protocol TokenStorage: AnyObject {
-    var token: Token? { get set }
+    func storeToken(_ token: Token)
 }
 
 public final class TwitterAuthSession {
-    
-//    public private(set) var token: Token?
-    
+        
     public let tokenStorage: TokenStorage
     public let clientCredentials: ClientCredentials
     
@@ -22,16 +20,16 @@ public final class TwitterAuthSession {
         self.clientCredentials = clientCredentials
     }
     
-    public func startFlow() {
+    public func startFlow(completion: @escaping (Result<Token, Error>) -> Void) {
         OAuthFlow(credentials: clientCredentials) { result in
             
             switch result {
             case .failure(let error):
                 print(error)
             case .success(let token):
-                self.tokenStorage.token = token
+                self.tokenStorage.storeToken(token)
             }
-            
+            completion(result)
         }.start()
     }
 }
