@@ -20,7 +20,7 @@ extension Endpoints {
     enum RequestToken {
         
         static func request(clientCredentials: ClientCredentials,
-                            identifier: String,
+                            identifier: RequestIdentifier,
                             timestamp: Date) -> URLRequest {
             
             let urlString = "https://api.twitter.com/oauth/request_token"
@@ -35,7 +35,7 @@ extension Endpoints {
                 consumerSecret: clientCredentials.secret,
                 token: nil,
                 tokenSecret: nil,
-                identifier: identifier,
+                identifier: identifier.identifier,
                 timestamp: timestamp)
             
             var request = URLRequest(url: URL(string: urlString)!)
@@ -86,6 +86,7 @@ extension Endpoints {
 
     enum Authorize {
         
+        // TODO: should timestamp go here?
         static func webAuthURL(tokenResponse: RequestToken.Response) -> URL {
             let urlString = "https://api.twitter.com/oauth/authorize?oauth_token=\(tokenResponse.token)"
             return URL(string: urlString)!
@@ -124,7 +125,7 @@ extension Endpoints {
         
         static func request(webAuthResponse: Authorize.Response,
                             clientCredentials: ClientCredentials,
-                            identifier: String,
+                            identifier: RequestIdentifier,
                             timestamp: Date) -> URLRequest {
             
             let urlString = "https://api.twitter.com/oauth/access_token"
@@ -139,7 +140,7 @@ extension Endpoints {
                 consumerSecret: clientCredentials.secret,
                 token: webAuthResponse.token,
                 tokenSecret: webAuthResponse.secret,
-                identifier: identifier,
+                identifier: identifier.identifier,
                 timestamp: timestamp)
             
             var request = URLRequest(url: URL(string: urlString)!)

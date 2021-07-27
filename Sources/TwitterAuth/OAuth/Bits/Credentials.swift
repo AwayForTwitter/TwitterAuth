@@ -10,21 +10,17 @@ import Foundation
 
 public struct ClientCredentials {
     
-    public init(key: String, secret: String, callbackURL: String) {
+    public init(key: String, secret: String, urlScheme: String, callbackURL: String) {
         self.key = key
         self.secret = secret
+        self.urlScheme = urlScheme
         self.callbackURL = callbackURL
     }
     
     var key: String
     var secret: String
+    var urlScheme: String
     var callbackURL: String
-}
-
-struct TemporaryCredentials {
-    var token: String
-    var secret: String
-    var verifier: String
 }
 
 struct TokenCredentials {

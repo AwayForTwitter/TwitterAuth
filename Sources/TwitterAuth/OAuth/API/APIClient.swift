@@ -9,11 +9,11 @@
 import Foundation
 import Combine
 
-final class OAuthAPIClient {
+final class APIClient {
 
     private static let verboseLog = false
 
-    private static func makeRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
+    static func makeRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
         let publisher =
             URLSession.shared.dataTaskPublisher(for: urlRequest)
             .tryMap() { element -> Data in
@@ -39,7 +39,7 @@ final class OAuthAPIClient {
         return publisher
     }
     
-    private static func makeRequest<T: Decodable>(urlRequest: URLRequest) -> AnyPublisher<T, Error> {
+    static func makeRequest<T: Decodable>(urlRequest: URLRequest) -> AnyPublisher<T, Error> {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .multiple
         let publisher = makeRequest(urlRequest: urlRequest)

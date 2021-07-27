@@ -7,18 +7,24 @@
 //
 
 public protocol TokenStorage {
-    var token: String? { get set }
+    var token: Token? { get set }
 }
 
-public final class TwitterAuth {
+public final class TwitterAuthSession {
     
 //    public private(set) var token: Token?
     
     public let tokenStorage: TokenStorage
     public let clientCredentials: ClientCredentials
     
-    init(tokenStorage: TokenStorage, clientCredentials: ClientCredentials) {
+    public init(tokenStorage: TokenStorage, clientCredentials: ClientCredentials) {
         self.tokenStorage = tokenStorage
         self.clientCredentials = clientCredentials
+    }
+    
+    public func startFlow() {
+        OAuthFlow(credentials: clientCredentials) { _ in
+            
+        }.start()
     }
 }
