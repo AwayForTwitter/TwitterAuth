@@ -158,13 +158,8 @@ extension Endpoints {
                 case notAString
             }
             
-            let credentials: TokenCredentials
-
-            let username: String
-            let userID: String
-            
-            let data: Data
-            
+            let token: Token
+                        
             init(data: Data) throws {
                 guard let string = String(data: data, encoding: .utf8) else {
                     throw Error.notAString
@@ -179,10 +174,7 @@ extension Endpoints {
                 else {
                     throw Error.notSatisfiable
                 }
-                self.credentials = TokenCredentials(token: token, secret: secret)
-                self.username = username
-                self.userID = userID
-                self.data = data
+                self.token = Token(credentials: Token.Credentials(token: token, secret: secret), username: username, userID: userID)
             }
         }
     }

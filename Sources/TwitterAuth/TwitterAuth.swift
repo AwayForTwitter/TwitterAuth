@@ -6,7 +6,7 @@
 //  Copyright © 2021 Hybrid Cat ApS. All rights reserved.
 //
 
-public protocol TokenStorage {
+public protocol TokenStorage: AnyObject {
     var token: Token? { get set }
 }
 
@@ -23,7 +23,14 @@ public final class TwitterAuthSession {
     }
     
     public func startFlow() {
-        OAuthFlow(credentials: clientCredentials) { _ in
+        OAuthFlow(credentials: clientCredentials) { result in
+            
+            switch result {
+            case .failure(let error):
+                print(error)
+            case .success(let token):
+                self.tokenStorage.token = token
+            }
             
         }.start()
     }

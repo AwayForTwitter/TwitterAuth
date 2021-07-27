@@ -12,7 +12,6 @@ import AuthenticationServices
 
 final class OAuthFlow {
     
-    typealias Token = String // temporary
     typealias CompletionHandler = (Result<Token, Error>) -> Void
     
     let credentials: ClientCredentials
@@ -48,8 +47,9 @@ final class OAuthFlow {
                 case .finished:
                     break
                 }
-            } receiveValue: { (value) in
+            } receiveValue: { [self] (value) in
                 print(value)
+                completion(.success(value.token))
                 
             }.store(in: &cancelBag)
     }

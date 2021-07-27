@@ -22,8 +22,3 @@ public struct ClientCredentials {
     var urlScheme: String
     var callbackURL: String
 }
-
-struct TokenCredentials {
-    var token: String
-    var secret: String
-}

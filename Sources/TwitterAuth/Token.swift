@@ -10,15 +10,28 @@ import Foundation
 
 public struct Token: Codable {
     
+    struct Credentials: Codable {
+        var token: String
+        var secret: String
+    }
+    
 //    public enum PermissionLevel: String, Codable {
 //        case readOnly = "ro", readWrite = "rw"
 //    }
     
-    public let value: String
 //    public let permission: PermissionLevel
+    
+    let credentials: Credentials
+
+    let username: String
+    let userID: String
+    
+    enum CodingKeys: String, CodingKey {
+        case credentials, username, userID
+    }
 }
 
-extension Token: RawRepresentable {
+extension Token {
     
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8),
