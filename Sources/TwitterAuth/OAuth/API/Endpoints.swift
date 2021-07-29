@@ -35,7 +35,7 @@ extension Endpoints {
                 consumerSecret: clientCredentials.secret,
                 token: nil,
                 tokenSecret: nil,
-                identifier: identifier.identifier,
+                identifier: identifier,
                 timestamp: timestamp)
             
             var request = URLRequest(url: URL(string: urlString)!)
@@ -140,7 +140,7 @@ extension Endpoints {
                 consumerSecret: clientCredentials.secret,
                 token: webAuthResponse.token,
                 tokenSecret: webAuthResponse.secret,
-                identifier: identifier.identifier,
+                identifier: identifier,
                 timestamp: timestamp)
             
             var request = URLRequest(url: URL(string: urlString)!)

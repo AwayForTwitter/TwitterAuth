@@ -6,8 +6,11 @@
 //  Copyright © 2021 Hybrid Cat ApS. All rights reserved.
 //
 
+import Foundation
+
 public protocol TokenStorage: AnyObject {
     func storeToken(_ token: Token)
+    func tokenForUserID(_ userID: String) -> Token?
 }
 
 public final class TwitterAuthSession {

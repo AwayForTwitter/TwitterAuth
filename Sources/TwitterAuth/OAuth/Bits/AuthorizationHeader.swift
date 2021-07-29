@@ -29,7 +29,7 @@ extension AuthorizationHeader {
         consumerSecret: String,
         token: String?,
         tokenSecret: String?,
-        identifier: String,
+        identifier: RequestIdentifier,
         timestamp: Date) throws -> AuthorizationHeader {
         
         // https://developer.twitter.com/en/docs/authentication/oauth-1-0a/creating-a-signature
@@ -37,7 +37,7 @@ extension AuthorizationHeader {
         let oauthParams: [Parameter] = {
             var params = [
                 Parameter(key: "oauth_consumer_key" , value: consumerKey),
-                Parameter(key: "oauth_nonce", value: identifier),
+                Parameter(key: "oauth_nonce", value: identifier.identifier),
                 Parameter(key: "oauth_signature_method", value: "HMAC-SHA1"),
                 Parameter(key: "oauth_timestamp", value: String(format: "%.0f", timestamp.timeIntervalSince1970)),
                 Parameter(key: "oauth_version", value: "1.0")
