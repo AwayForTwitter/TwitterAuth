@@ -16,11 +16,13 @@ final class OAuthFlow {
     
     let credentials: ClientCredentials
     let completion: CompletionHandler
+    let usePrivateSession: Bool
     
     private var cancelBag: Set<AnyCancellable> = []
 
-    init(credentials: ClientCredentials, completion: @escaping CompletionHandler) {
+    init(credentials: ClientCredentials, usePrivateSession: Bool, completion: @escaping CompletionHandler) {
         self.credentials = credentials
+        self.usePrivateSession = usePrivateSession
         self.completion = completion
     }
     
@@ -70,8 +72,7 @@ final class OAuthFlow {
             case underlying(Error?)
         }
         
-        let credentials = self.credentials
-        return Future { promise in
+        return Future { [credentials, usePrivateSession] promise in
             // TODO: do we need to ensure main thread here?
             
             var context: AuthPresenter? = AuthPresenter()
@@ -90,6 +91,7 @@ final class OAuthFlow {
                 promise(response)
             }
             authSession.presentationContextProvider = context
+            authSession.prefersEphemeralWebBrowserSession = usePrivateSession
             authSession.start()
         }
     }
