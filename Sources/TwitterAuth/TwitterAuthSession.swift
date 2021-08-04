@@ -11,6 +11,7 @@ import Foundation
 public protocol TokenStorage: AnyObject {
     func storeToken(_ token: Token)
     func tokenForUserID(_ userID: String) -> Token?
+    func deleteTokenForUserID(_ userID: String)
 }
 
 public final class TwitterAuthSession {
