@@ -6,8 +6,6 @@
 //  Copyright © 2021 Hybrid Cat ApS. All rights reserved.
 //
 
-// todo: update author
-
 import Foundation
 
 struct AuthorizationHeader {
