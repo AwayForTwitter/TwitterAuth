@@ -20,13 +20,14 @@ final class APIClient {
                 if verboseLog {
                     print(element)
                 }
+                if verboseLog {
+                    print("response:", String(data: element.data, encoding: .utf8) as Any)
+                }
                 guard let httpResponse = element.response as? HTTPURLResponse,
                     httpResponse.statusCode == 200 else {
                         throw URLError(.badServerResponse)
                     }
-                if verboseLog {
-                    print("response:", String(data: element.data, encoding: .utf8) as Any)
-                }
+                
                 return element.data
                 }
             .mapError({ e -> Error in
