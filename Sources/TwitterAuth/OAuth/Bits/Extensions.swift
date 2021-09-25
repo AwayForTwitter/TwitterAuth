@@ -32,12 +32,3 @@ extension String {
         return data
     }
 }
-
-extension JSONDecoder {
-    
-    public static var twitterDateDecoder: JSONDecoder {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .multiple
-        return decoder
-    }
-}

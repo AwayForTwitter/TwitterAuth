@@ -42,7 +42,6 @@ final class APIClient {
     
     static func makeRequest<T: Decodable>(urlRequest: URLRequest) -> AnyPublisher<T, Error> {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .multiple
         let publisher = makeRequest(urlRequest: urlRequest)
             .decode(type: T.self, decoder: decoder)
 //            .print("->> request event \(urlRequest.url?.absoluteString ?? "")\n", to: nil)
