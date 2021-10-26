@@ -9,9 +9,25 @@
 import Foundation
 
 public protocol TokenStorage: AnyObject {
-    func storeToken(_ token: Token)
+    func storeToken(_ token: Token) throws
     func tokenForUserID(_ userID: String) -> Token?
-    func deleteTokenForUserID(_ userID: String)
+    func deleteTokenForUserID(_ userID: String) throws
+}
+
+public enum TokenStorageKind {
+    case keychain(service: String?)
+    case custom(TokenStorage)
+    
+    public static var `default`: TokenStorageKind { return .keychain(service: nil) }
+    
+    public func storage() -> TokenStorage {
+        switch self {
+        case .keychain:
+            return KeychainStorage()
+        case .custom(let tokenStorage):
+            return tokenStorage
+        }
+    }
 }
 
 public final class TwitterAuthSession {
@@ -20,23 +36,37 @@ public final class TwitterAuthSession {
     public let clientCredentials: ClientCredentials
     public let configuration: Configuration
     
-    public init(tokenStorage: TokenStorage, clientCredentials: ClientCredentials, configuration: Configuration = .init()) {
-        self.tokenStorage = tokenStorage
+    public init(clientCredentials: ClientCredentials, tokenStorage: TokenStorageKind = .default, configuration: Configuration = .init()) {
+        self.tokenStorage = tokenStorage.storage()
         self.clientCredentials = clientCredentials
         self.configuration = configuration
     }
     
     public func startFlow(completion: @escaping (Result<Token, Error>) -> Void) {
         OAuthFlow(credentials: clientCredentials, usePrivateSession: true) { result in
+            let resultToReturn: Result<Token, Error>
             
             switch result {
             case .failure(let error):
                 print(error)
+                resultToReturn = result
             case .success(let token):
-                self.tokenStorage.storeToken(token)
+                
+                do {
+                    try self.tokenStorage.storeToken(token)
+                    resultToReturn = result
+                }
+                catch {
+                    resultToReturn = .failure(error)
+                }
             }
-            completion(result)
+            
+            completion(resultToReturn)
         }.start()
+    }
+    
+    public func deleteToken(forUserWithID userID: String) throws {
+        try self.tokenStorage.deleteTokenForUserID(userID)
     }
 }
 

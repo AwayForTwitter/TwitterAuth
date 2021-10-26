@@ -1,8 +1,9 @@
 //
 //  TwitterRequestSigner.swift
-//  
+//  TwitterAuth
 //
 //  Created by Marina Gornostaeva on 28/07/2021.
+//  Copyright © 2021 Hybrid Cat ApS. All rights reserved.
 //
 
 import Foundation
@@ -13,9 +14,9 @@ public final class TwitterRequestSigner {
     public let tokenStorage: TokenStorage
     public let clientCredentials: ClientCredentials
     
-    public init(userID: String, tokenStorage: TokenStorage, clientCredentials: ClientCredentials) {
+    public init(userID: String, tokenStorage: TokenStorageKind = .default, clientCredentials: ClientCredentials) {
         self.userID = userID
-        self.tokenStorage = tokenStorage
+        self.tokenStorage = tokenStorage.storage()
         self.clientCredentials = clientCredentials
     }
     
