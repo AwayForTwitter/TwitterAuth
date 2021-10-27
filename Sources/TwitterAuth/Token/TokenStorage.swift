@@ -9,7 +9,7 @@
 import Foundation
 import KeychainAccess
 
-public final class KeychainStorage: TokenStorage {
+public final class KeychainTokenStorage: TokenStorage {
     
     public let keychain: Keychain
 
@@ -27,13 +27,13 @@ public final class KeychainStorage: TokenStorage {
             if let bundleIdentifier = Bundle.main.bundleIdentifier {
                 serviceComponents.append(bundleIdentifier)
             }
-            serviceComponents.append("auth")
+            serviceComponents.append("twitterauth")
             serviceAttribute = serviceComponents.joined(separator: ".")
         }
         
         let keychain = Keychain(service: serviceAttribute)
             .accessibility(.afterFirstUnlockThisDeviceOnly)
-            .synchronizable(true)
+            .synchronizable(false)
         
         self.init(keychain: keychain)
     }
@@ -53,7 +53,7 @@ public final class KeychainStorage: TokenStorage {
     public func tokenForUserID(_ userID: String) -> Token? {
         let key = key(for: userID)
         do {
-            guard let existing = try keychain.get(key) else {
+            guard let existing = try keychain.get(key, ignoringAttributeSynchronizable: true) else {
                 Logger.logError("No item found in keychain for userID \(userID) (returned nil)")
                 return nil
             }

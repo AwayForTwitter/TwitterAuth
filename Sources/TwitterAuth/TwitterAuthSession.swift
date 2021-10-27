@@ -23,7 +23,7 @@ public enum TokenStorageKind {
     public func storage() -> TokenStorage {
         switch self {
         case .keychain:
-            return KeychainStorage()
+            return KeychainTokenStorage()
         case .custom(let tokenStorage):
             return tokenStorage
         }
