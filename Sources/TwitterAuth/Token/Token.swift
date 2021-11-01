@@ -51,3 +51,11 @@ extension Token {
         return result
     }
 }
+
+#if DEBUG
+extension Token {
+    public static var demo: Token {
+        return .init(credentials: .init(token: "tkn", secret: "sct"), username: "demo", userID: "demo_userid")
+    }
+}
+#endif
