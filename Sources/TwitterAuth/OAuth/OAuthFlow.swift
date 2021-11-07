@@ -11,6 +11,10 @@ import Combine
 import AuthenticationServices
 
 final class OAuthFlow {
+
+    enum AuthError: Error {
+        case underlying(Error?)
+    }
     
     typealias CompletionHandler = (Result<Token, Error>) -> Void
     
@@ -41,7 +45,7 @@ final class OAuthFlow {
             .flatMap({ self.finalizeAuth(response: $0) })
             
             .sink { [self] (c) in
-                print(c)
+//                print(c)
                 switch c {
                 case .failure(let error):
                     print(error)
@@ -50,7 +54,7 @@ final class OAuthFlow {
                     break
                 }
             } receiveValue: { [self] (value) in
-                print(value)
+//                print(value)
                 completion(.success(value.token))
                 
             }.store(in: &cancelBag)
@@ -68,10 +72,6 @@ final class OAuthFlow {
     
     private func handleAuth(_ response: Endpoints.RequestToken.Response) -> Future<Endpoints.Authorize.Response, Error> {
         
-        enum AuthError: Error {
-            case underlying(Error?)
-        }
-        
         return Future { [credentials, usePrivateSession] promise in
             // TODO: do we need to ensure main thread here?
             
@@ -79,7 +79,7 @@ final class OAuthFlow {
             let url = Endpoints.Authorize.webAuthURL(tokenResponse: response)
 
             let authSession = ASWebAuthenticationSession(url: url, callbackURLScheme: credentials.urlScheme) { (callbackURL, error) in
-                print("auth done", callbackURL as Any, error as Any)
+                print("auth done", /*callbackURL as Any,*/ error as Any)
                 context = nil
                 
                 guard error == nil, let callbackURL = callbackURL else {

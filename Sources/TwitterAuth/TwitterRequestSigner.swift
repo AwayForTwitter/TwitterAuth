@@ -53,6 +53,5 @@ extension TwitterRequestSigner {
     
     public enum SignatureError: Swift.Error {
         case noToken
-        case invalidRequest
     }
 }

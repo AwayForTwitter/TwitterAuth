@@ -13,11 +13,11 @@ extension String {
     
     func percentEncoded() throws -> String {
         enum Error: Swift.Error {
-            case error
+            case cantPercentEncode
         }
         let chs = CharacterSet.decimalDigits.union(CharacterSet.letters).union(CharacterSet(charactersIn: "-._~"))
         guard let encoded = self.addingPercentEncoding(withAllowedCharacters: chs) else {
-            throw Error.error
+            throw Error.cantPercentEncode
         }
         return encoded
     }
